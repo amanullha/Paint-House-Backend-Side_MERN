@@ -348,6 +348,35 @@ async function run() {
 
         })
 
+        //update single products 
+
+        app.put('/update-single-product/:_id', async (req, res) => {
+
+            const _id = req.params._id;
+            const product = req.body.UpdateProduct;
+
+            // console.log("updateId ", _id);
+            // console.log("updateProduct ", product);
+
+
+            const filter = { _id: ObjectId(_id) };
+
+            const options = { upsert: true };
+
+            const updateDoc = {
+                $set: {
+                    availableQuantity: product.availableQuantity,
+                    minimumOrder: product.minimumOrder,
+                    unitPrice: product.unitPrice
+
+                },
+            };
+            const result = await productsCollection.updateOne(filter, updateDoc, options);
+
+            res.send(result);
+
+        })
+
 
 
 
